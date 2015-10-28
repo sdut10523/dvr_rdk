@@ -1,37 +1,14 @@
-/*******************************************************************************
- *                                                                             *
- * Copyright (c) 2009 Texas Instruments Incorporated - http://www.ti.com/      *
- *                        ALL RIGHTS RESERVED                                  *
- *                                                                             *
- ******************************************************************************/
 /*
-                        Capture (YUV422I) 16CH D1 60fps
-                          |
-                          |
-                        NSF (YUV420SP) -------------------+
-                          |                               |
-                          |                               |
-  NULL SRC (YUV420SP)  DEIH (VIP-SC YUV420 )     DEI (VIP-SC YUV420 )
-          |               |                               |
-          +------------+  |  +----------------------------+
-                       |  |  |
-                       |  |  |
-                        MERGE
-                          |
-                          |
-                         DUP
-                         |||
-         +---------------+|+------------+
-         |                |             |
-         |                |             |
-      SW Mosaic       SW Mosaic         |
-      (SC5 YUV422I)  (SC5 YUV422I)      |
-         |                |             |
- GRPX0   |       GRPX1,2  |             |
-    |    |           |    |             |
-    On-Chip HDMI    Off-Chip HDMI  SDTV (NTSC)
-      1080p60         1080p60        480i60
-*/
+	Capture (YUV422I) 16CH D1 60fps
+					|
+			NSF (YUV420SP)
+					|
+			IPCFRAMEOUT(VPS) <-->IPCFRAMEINDSPIN - ALG LINK
+					|
+		SW Mosaic(SC5 YUV422I)
+					|
+		On-Chip HDMI 1080p60
+ */
 
 #include "multich_common.h"
 
@@ -52,35 +29,32 @@
 
 Void MultiCh_createVcapVdis()
 {
-    CaptureLink_CreateParams    capturePrm;
-    NsfLink_CreateParams        nsfPrm;
-    DeiLink_CreateParams        deiPrm[2];
-    NullSrcLink_CreateParams    nullSrcPrm;
-    MergeLink_CreateParams      mergePrm;
-    DupLink_CreateParams        dupPrm;
-    static SwMsLink_CreateParams       swMsPrm[VDIS_DEV_MAX];
-    DisplayLink_CreateParams    displayPrm[VDIS_DEV_MAX];
+	printf("+++++Jason: Changed_MultiCh_createVcapVdis is begining\n+++++");
 
-    CaptureLink_VipInstParams *pCaptureInstPrm;
+	Bool enableAlgLink = TRUE;
+
+	CaptureLink_CreateParams    capturePrm;
+	NsfLink_CreateParams        nsfPrm;
+	IpcFramesOutLinkRTOS_CreateParams ipcFramesOutVpssPrm;
+	IpcFramesInLinkRTOS_CreateParams  ipcFramesInDspPrm;
+	AlgLink_CreateParams              dspAlgPrm;
+	static SwMsLink_CreateParams       swMsPrm;
+    DisplayLink_CreateParams    displayPrm;
+
+	CaptureLink_VipInstParams *pCaptureInstPrm;
     CaptureLink_OutParams     *pCaptureOutPrm;
 
-    VCAP_VIDDEC_PARAMS_S vidDecVideoModeArgs[NUM_CAPTURE_DEVICES];
-
-    UInt32 grpxId[VDIS_DEV_MAX];
-    UInt32 nullId;
-    UInt32 mergeId, dupId;
-    UInt32 deiOutQue;
+	VCAP_VIDDEC_PARAMS_S vidDecVideoModeArgs[NUM_CAPTURE_DEVICES];
 
     UInt32 vipInstId;
-    UInt32 i;
+	UInt32 i;
     UInt32 numSubChains;
-    Bool enableSdtv;
 
-    for (i = 0; i < VDIS_DEV_MAX; i++)
-    {
-        MULTICH_INIT_STRUCT(DisplayLink_CreateParams,displayPrm[i]);
-        MULTICH_INIT_STRUCT(SwMsLink_CreateParams ,swMsPrm[i]);
-    }
+	MULTICH_INIT_STRUCT(IpcFramesOutLinkRTOS_CreateParams,ipcFramesOutVpssPrm);
+	MULTICH_INIT_STRUCT(IpcFramesInLinkRTOS_CreateParams,ipcFramesInDspPrm);
+	MULTICH_INIT_STRUCT(AlgLink_CreateParams, dspAlgPrm);
+    MULTICH_INIT_STRUCT(DisplayLink_CreateParams,displayPrm);
+	MULTICH_INIT_STRUCT(SwMsLink_CreateParams ,swMsPrm);
 
     System_init();
 
@@ -94,45 +68,27 @@ Void MultiCh_createVcapVdis()
         TRUE
         );
 
-    gVcapModuleContext.captureId    = SYSTEM_LINK_ID_CAPTURE;
+	gVcapModuleContext.captureId    = SYSTEM_LINK_ID_CAPTURE;
     gVcapModuleContext.nsfId[0]     = SYSTEM_LINK_ID_NSF_0;
-    gVcapModuleContext.deiId[0]     = SYSTEM_LINK_ID_DEI_HQ_0;
-    gVcapModuleContext.deiId[1]     = SYSTEM_LINK_ID_DEI_0;
-    gVcapModuleContext.nullSrcId    = SYSTEM_VPSS_LINK_ID_NULL_SRC_0;
-    mergeId                         = SYSTEM_VPSS_LINK_ID_MERGE_0;
-    dupId                           = SYSTEM_VPSS_LINK_ID_DUP_0;
-
-    gVdisModuleContext.swMsId[0]      = SYSTEM_LINK_ID_SW_MS_MULTI_INST_0;
-    gVdisModuleContext.swMsId[1]      = SYSTEM_LINK_ID_SW_MS_MULTI_INST_1;
-
-    swMsPrm[0].numSwMsInst   = 1;
-    swMsPrm[1].numSwMsInst   = 1;
-    swMsPrm[0].swMsInstId[0] = SYSTEM_SW_MS_SC_INST_SC5;
-    swMsPrm[1].swMsInstId[0] = SYSTEM_SW_MS_SC_INST_SC5;
-
+	if(enableAlgLink)
+    {
+		gVcapModuleContext.ipcFramesOutVpssId[0] = SYSTEM_VPSS_LINK_ID_IPC_FRAMES_OUT_0;
+        gVcapModuleContext.ipcFramesInDspId[0] = SYSTEM_DSP_LINK_ID_IPC_FRAMES_IN_0;
+        gVcapModuleContext.dspAlgId[0] = SYSTEM_LINK_ID_ALG_0;
+    }
+	gVdisModuleContext.swMsId[0]      = SYSTEM_LINK_ID_SW_MS_MULTI_INST_0;
+    swMsPrm.numSwMsInst   = 1;
+    swMsPrm.swMsInstId[0] = SYSTEM_SW_MS_SC_INST_SC5;
     gVdisModuleContext.displayId[0] = SYSTEM_LINK_ID_DISPLAY_0; // ON CHIP HDMI
-    gVdisModuleContext.displayId[1] = SYSTEM_LINK_ID_DISPLAY_1; // OFF CHIP HDMI
-    gVdisModuleContext.displayId[2] = SYSTEM_LINK_ID_DISPLAY_2; // OFF CHIP HDMI
-    grpxId[0]                       = SYSTEM_LINK_ID_GRPX_0;
-    grpxId[1]                       = SYSTEM_LINK_ID_GRPX_1;
-#if 0    /* Enabling graphics only for ON CHIP HDMI an OFF CHIP HDMI*/
-    grpxId[2]                       = SYSTEM_LINK_ID_GRPX_2;
-#endif
-    nullId                          = SYSTEM_VPSS_LINK_ID_NULL_0;
 
-    numSubChains             = 2;
-    deiOutQue                = DEI_LINK_OUT_QUE_VIP_SC;
-    enableSdtv               = FALSE;
+	numSubChains             = 2;
 
-    CaptureLink_CreateParams_Init(&capturePrm);
-
+	CaptureLink_CreateParams_Init(&capturePrm);
     capturePrm.numVipInst    = 2 * numSubChains;
     capturePrm.outQueParams[0].nextLink = gVcapModuleContext.nsfId[0];
-
     capturePrm.tilerEnable              = FALSE;
     capturePrm.enableSdCrop             = FALSE;
-
-    for(vipInstId=0; vipInstId<capturePrm.numVipInst; vipInstId++)
+	for(vipInstId=0; vipInstId<capturePrm.numVipInst; vipInstId++)
     {
         pCaptureInstPrm                     = &capturePrm.vipInst[vipInstId];
         pCaptureInstPrm->vipInstId          = (SYSTEM_CAPTURE_INST_VIP1_PORTB-
@@ -150,7 +106,7 @@ Void MultiCh_createVcapVdis()
         pCaptureOutPrm->outQueId            = 0;
     }
 
-    for(i = 0; i < NUM_CAPTURE_DEVICES; i++)
+	for(i = 0; i < NUM_CAPTURE_DEVICES; i++)
     {
         vidDecVideoModeArgs[i].videoIfMode        = DEVICE_CAPT_VIDEO_IF_MODE_8BIT;
         vidDecVideoModeArgs[i].videoDataFormat    = SYSTEM_DF_YUV422P;
@@ -165,200 +121,104 @@ Void MultiCh_createVcapVdis()
 
     Vcap_configVideoDecoder(vidDecVideoModeArgs, NUM_CAPTURE_DEVICES);
 
-    NsfLink_CreateParams_Init(&nsfPrm);
+	NsfLink_CreateParams_Init(&nsfPrm);
     nsfPrm.bypassNsf                 = FALSE;
     nsfPrm.tilerEnable               = FALSE;
     nsfPrm.inQueParams.prevLinkId    = gVcapModuleContext.captureId;
     nsfPrm.inQueParams.prevLinkQueId = 0;
-    nsfPrm.numOutQue                 = numSubChains;
-    nsfPrm.outQueParams[0].nextLink  = gVcapModuleContext.deiId[0];
-    nsfPrm.outQueParams[1].nextLink  = gVcapModuleContext.deiId[1];
+    nsfPrm.numOutQue                 = 1;
+    nsfPrm.outQueParams[0].nextLink  = gVdisModuleContext.swMsId[0];
 
-    nullSrcPrm.outQueParams.nextLink      = mergeId;
-    nullSrcPrm.timerPeriod                = 33;
-    nullSrcPrm.inputInfo.numCh            = 16;
-    for(i=0; i<nullSrcPrm.inputInfo.numCh; i++)
-    {
-        System_LinkChInfo *pChInfo;
+	if(enableAlgLink)
+	{
+		nsfPrm.outQueParams[0].nextLink  = gVcapModuleContext.ipcFramesOutVpssId[0];
 
-        pChInfo = &nullSrcPrm.inputInfo.chInfo[i];
+		ipcFramesOutVpssPrm .baseCreateParams.inQueParams.prevLinkId   = gVcapModuleContext.nsfId[0];
+        ipcFramesOutVpssPrm.baseCreateParams.inQueParams.prevLinkQueId = 0;
+        ipcFramesOutVpssPrm.baseCreateParams.outQueParams[0].nextLink  = gVdisModuleContext.swMsId[0];
+        ipcFramesOutVpssPrm.baseCreateParams.processLink               = gVcapModuleContext.ipcFramesInDspId[0];
+        ipcFramesOutVpssPrm.baseCreateParams.notifyPrevLink            = TRUE;
+        ipcFramesOutVpssPrm.baseCreateParams.notifyNextLink            = TRUE;
+        ipcFramesOutVpssPrm.baseCreateParams.notifyProcessLink         = TRUE;
+        ipcFramesOutVpssPrm.baseCreateParams.noNotifyMode              = FALSE;
+        ipcFramesOutVpssPrm.baseCreateParams.numOutQue                 = 1;
 
-        pChInfo->dataFormat = SYSTEM_DF_YUV420SP_UV;
-        pChInfo->memType    = SYSTEM_MT_NONTILEDMEM;
-        pChInfo->startX     = 48;
-        pChInfo->startY     = 32;
-        pChInfo->width      = 720;
-        pChInfo->height     = 576;
-        pChInfo->pitch[0]   = SystemUtils_align(pChInfo->width+pChInfo->startX, SYSTEM_BUFFER_ALIGNMENT);
-        pChInfo->pitch[1]   = pChInfo->pitch[0];
-        pChInfo->pitch[2]   = 0;
-        pChInfo->scanFormat = SYSTEM_SF_PROGRESSIVE;
-    }
+        ipcFramesInDspPrm.baseCreateParams.inQueParams.prevLinkId      = gVcapModuleContext.ipcFramesOutVpssId[0];
+        ipcFramesInDspPrm.baseCreateParams.inQueParams.prevLinkQueId   = 0;
+        ipcFramesInDspPrm.baseCreateParams.outQueParams[0].nextLink    = gVcapModuleContext.dspAlgId[0];
+        ipcFramesInDspPrm.baseCreateParams.notifyPrevLink              = TRUE;
+        ipcFramesInDspPrm.baseCreateParams.notifyNextLink              = TRUE;
+        ipcFramesInDspPrm.baseCreateParams.noNotifyMode                = FALSE;
+        ipcFramesInDspPrm.baseCreateParams.numOutQue                   = 1;
 
-    for(i=0; i<numSubChains; i++)
-    {
-        DeiLink_CreateParams_Init(&deiPrm[i]);
+        dspAlgPrm.inQueParams.prevLinkId = gVcapModuleContext.ipcFramesInDspId[0];
+        dspAlgPrm.inQueParams.prevLinkQueId = 0;
+	}
 
-        deiPrm[i].inQueParams.prevLinkId                        = gVcapModuleContext.nsfId[0];
-        deiPrm[i].inQueParams.prevLinkQueId                     = i;
-        deiPrm[i].outQueParams[deiOutQue].nextLink              = mergeId;
-        deiPrm[i].outQueParams[deiOutQue^1].nextLink            = nullId;
-        deiPrm[i].enableOut[deiOutQue]                          = TRUE;
-        deiPrm[i].enableOut[deiOutQue^1]                        = FALSE;
-        deiPrm[i].tilerEnable                                   = FALSE;
+	swMsPrm.inQueParams.prevLinkId = gVcapModuleContext.nsfId[0];
+	if(enableAlgLink)
+	{
+		swMsPrm.inQueParams.prevLinkId = gVcapModuleContext.ipcFramesOutVpssId[0];
+	}
+	swMsPrm.inQueParams.prevLinkQueId = 0;
+	swMsPrm.outQueParams.nextLink     = gVdisModuleContext.displayId[0];
+	swMsPrm.maxInputQueLen            = SYSTEM_SW_MS_DEFAULT_INPUT_QUE_LEN;
+	swMsPrm.maxOutRes                 = gVdisModuleContext.vdisConfig.deviceParams[0].resolution;
+	swMsPrm.lineSkipMode = TRUE;
+	swMsPrm.enableLayoutGridDraw = gVdisModuleContext.vdisConfig.enableLayoutGridDraw;
+	MultiCh_swMsGetDefaultLayoutPrm(0, &swMsPrm, FALSE); /* Since only live preview is there, show it on both displays */
 
-        deiPrm[i].comprEnable                                   = FALSE;
-        deiPrm[i].setVipScYuv422Format                          = FALSE;
+	displayPrm.inQueParams[0].prevLinkId    	= gVdisModuleContext.swMsId[0];
+	displayPrm.inQueParams[0].prevLinkQueId 	= 0;
+	displayPrm.displayRes                	= swMsPrm.maxOutRes;
 
-        deiPrm[i].scaleMode = DEI_SCALE_MODE_RATIO;
-
-        /* DEI Path Scalar ratio is 1:2, D1 => CIF */
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_DEI_SC].ratio.widthRatio.numerator    = 1;
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_DEI_SC].ratio.widthRatio.denominator  = 2;
-
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_DEI_SC].ratio.heightRatio.numerator   = 1;
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_DEI_SC].ratio.heightRatio.denominator         = 2;
-
-        /* VIP Scalar ratio is 1:1 */
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_VIP_SC].ratio.widthRatio.numerator    = 1;
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_VIP_SC].ratio.widthRatio.denominator  = 1;
-
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_VIP_SC].ratio.heightRatio.numerator   = 1;
-        deiPrm[i].outScaleFactor[DEI_LINK_OUT_QUE_VIP_SC].ratio.heightRatio.denominator     = 1;
-
-        mergePrm.numInQue                     = numSubChains;
-        mergePrm.inQueParams[i].prevLinkId    = gVcapModuleContext.deiId[i];
-        mergePrm.inQueParams[i].prevLinkQueId = deiOutQue;
-        mergePrm.outQueParams.nextLink        = dupId;
-        mergePrm.notifyNextLink               = TRUE;
-
-        dupPrm.inQueParams.prevLinkId         = mergeId;
-        dupPrm.inQueParams.prevLinkQueId      = 0;
-        dupPrm.numOutQue                      = numSubChains;
-        dupPrm.outQueParams[i].nextLink       = gVdisModuleContext.swMsId[i];
-        dupPrm.notifyNextLink                 = TRUE;
-    }
-
-    mergePrm.numInQue                     = 3;
-    mergePrm.inQueParams[i].prevLinkId    = gVcapModuleContext.nullSrcId;
-    mergePrm.inQueParams[i].prevLinkQueId = 0;
-
-    for(i=0; i<numSubChains; i++)
-    {
-        swMsPrm[i].inQueParams.prevLinkId    = dupId;
-        swMsPrm[i].inQueParams.prevLinkQueId = i;
-        swMsPrm[i].outQueParams.nextLink     = gVdisModuleContext.displayId[i];
-        swMsPrm[i].maxInputQueLen            = SYSTEM_SW_MS_DEFAULT_INPUT_QUE_LEN;
-        swMsPrm[i].maxOutRes                 = gVdisModuleContext.vdisConfig.deviceParams[i].resolution;
-        swMsPrm[i].lineSkipMode = TRUE;
-
-        swMsPrm[i].enableLayoutGridDraw = gVdisModuleContext.vdisConfig.enableLayoutGridDraw;
-
-        MultiCh_swMsGetDefaultLayoutPrm(0, &swMsPrm[i], FALSE); /* Since only live preview is there, show it on both displays */
-
-        displayPrm[i].inQueParams[0].prevLinkId    = gVdisModuleContext.swMsId[i];
-        displayPrm[i].inQueParams[0].prevLinkQueId = 0;
-        displayPrm[i].displayRes                = swMsPrm[i].maxOutRes;
-    }
-
-    if(enableSdtv)
-    {
-        dupPrm.numOutQue                      = 3;
-        dupPrm.outQueParams[2].nextLink       = gVdisModuleContext.displayId[2];
-    }
-
-    displayPrm[2].numInputQueues = 1;
-    displayPrm[2].activeQueue    = 0;
-    displayPrm[2].inQueParams[0].prevLinkId    = dupId;
-    displayPrm[2].inQueParams[0].prevLinkQueId = 2;
-    displayPrm[2].displayRes = gVdisModuleContext.vdisConfig.deviceParams[VDIS_DEV_SD].resolution;
-
-
-    MultiCh_displayCtrlInit(&gVdisModuleContext.vdisConfig);
+	MultiCh_displayCtrlInit(&gVdisModuleContext.vdisConfig);
 #ifndef SYSTEM_USE_VIDEO_DECODER
     capturePrm.isPalMode = Vcap_isPalMode();
 #endif
 
-    System_linkCreate (gVcapModuleContext.captureId, &capturePrm, sizeof(capturePrm));
+	System_linkCreate (gVcapModuleContext.captureId, &capturePrm, sizeof(capturePrm));
     System_linkCreate(gVcapModuleContext.nsfId[0] , &nsfPrm, sizeof(nsfPrm));
-
-    for(i=0; i<numSubChains; i++)
-        System_linkCreate(gVcapModuleContext.deiId[i]  , &deiPrm[i], sizeof(deiPrm[i]));
-
-    System_linkCreate(gVcapModuleContext.nullSrcId , &nullSrcPrm, sizeof(nullSrcPrm));
-    System_linkCreate(mergeId   , &mergePrm  , sizeof(mergePrm));
-    System_linkCreate(dupId     , &dupPrm    , sizeof(dupPrm));
-
-    for(i=0; i<numSubChains; i++)
-        System_linkCreate(gVdisModuleContext.swMsId[i]  , &swMsPrm[i], sizeof(swMsPrm[i]));
-
-    for(i=0; i<numSubChains; i++)
-        System_linkCreate(gVdisModuleContext.displayId[i], &displayPrm[i], sizeof(displayPrm[i]));
-
-    if(enableSdtv)
+	if(enableAlgLink)
     {
-        System_linkCreate(gVdisModuleContext.displayId[2], &displayPrm[2], sizeof(displayPrm[2]));
+        System_linkCreate(gVcapModuleContext.ipcFramesOutVpssId[0], &ipcFramesOutVpssPrm, sizeof(ipcFramesOutVpssPrm));
+        System_linkCreate(gVcapModuleContext.ipcFramesInDspId[0], &ipcFramesInDspPrm, sizeof(ipcFramesInDspPrm));
+        System_linkCreate(gVcapModuleContext.dspAlgId[0], &dspAlgPrm, sizeof(dspAlgPrm));
     }
+	System_linkCreate(gVdisModuleContext.swMsId[0]  , &swMsPrm, sizeof(swMsPrm));
+    System_linkCreate(gVdisModuleContext.displayId[0], &displayPrm, sizeof(displayPrm));
 
     MultiCh_memPrintHeapStatus();
-
 }
 
 
 Void MultiCh_deleteVcapVdis()
 {
-    UInt32 grpxId[VDIS_DEV_MAX];
-    UInt32 nullId;
-    UInt32 mergeId, dupId;
-    UInt32 i;
-    UInt32 numSubChains;
-    UInt32 enableSdtv   = FALSE;
-
-    numSubChains = 2;
+	Bool enableAlgLink = TRUE;
 
     gVcapModuleContext.captureId    = SYSTEM_LINK_ID_CAPTURE;
     gVcapModuleContext.nsfId[0]     = SYSTEM_LINK_ID_NSF_0;
-    gVcapModuleContext.deiId[0]     = SYSTEM_LINK_ID_DEI_HQ_0;
-    gVcapModuleContext.deiId[1]     = SYSTEM_LINK_ID_DEI_0;
-    gVcapModuleContext.nullSrcId    = SYSTEM_VPSS_LINK_ID_NULL_SRC_0;
-    mergeId      = SYSTEM_VPSS_LINK_ID_MERGE_0;
-    dupId        = SYSTEM_VPSS_LINK_ID_DUP_0;
-
-    gVdisModuleContext.swMsId[0]      = SYSTEM_LINK_ID_SW_MS_MULTI_INST_0;
-    gVdisModuleContext.swMsId[1]      = SYSTEM_LINK_ID_SW_MS_MULTI_INST_1;
-
+	if(enableAlgLink)
+    {
+		gVcapModuleContext.ipcFramesOutVpssId[0] = SYSTEM_VPSS_LINK_ID_IPC_FRAMES_OUT_0;
+        gVcapModuleContext.ipcFramesInDspId[0] = SYSTEM_DSP_LINK_ID_IPC_FRAMES_IN_0;
+        gVcapModuleContext.dspAlgId[0] = SYSTEM_LINK_ID_ALG_0;
+    }
+	gVdisModuleContext.swMsId[0]      = SYSTEM_LINK_ID_SW_MS_MULTI_INST_0;
     gVdisModuleContext.displayId[0] = SYSTEM_LINK_ID_DISPLAY_0; // ON CHIP HDMI
-    gVdisModuleContext.displayId[1] = SYSTEM_LINK_ID_DISPLAY_1; // OFF CHIP HDMI
-    gVdisModuleContext.displayId[2] = SYSTEM_LINK_ID_DISPLAY_2; // OFF CHIP HDMI
-    grpxId[0]    = SYSTEM_LINK_ID_GRPX_0;
-    grpxId[1]    = SYSTEM_LINK_ID_GRPX_1;
-#if 0    /* Enabling graphics only for ON CHIP HDMI an OFF CHIP HDMI*/
-    grpxId[2]    = SYSTEM_LINK_ID_GRPX_2;
-#endif
-    nullId       = SYSTEM_VPSS_LINK_ID_NULL_0;
 
     MultiCh_displayCtrlDeInit(&gVdisModuleContext.vdisConfig);
 
     System_linkDelete(gVcapModuleContext.captureId);
     System_linkDelete(gVcapModuleContext.nsfId[0]);
-
-    for(i=0; i<numSubChains; i++)
-        System_linkDelete(gVcapModuleContext.deiId[i] );
-
-    System_linkDelete(gVcapModuleContext.nullSrcId);
-    System_linkDelete(mergeId);
-    System_linkDelete(dupId);
-
-    for(i=0; i<numSubChains; i++)
-        System_linkDelete(gVdisModuleContext.swMsId[i] );
-
-    for(i=0; i<numSubChains; i++)
-        System_linkDelete(gVdisModuleContext.displayId[i]);
-
-    if(enableSdtv)
+	if(enableAlgLink)
     {
-        System_linkDelete(gVdisModuleContext.displayId[2]);
+        System_linkDelete(gVcapModuleContext.ipcFramesOutVpssId[0]);
+        System_linkDelete(gVcapModuleContext.ipcFramesInDspId[0]);
+        System_linkDelete(gVcapModuleContext.dspAlgId[0]);
     }
+	System_linkDelete(gVdisModuleContext.swMsId[0] );
+	System_linkDelete(gVdisModuleContext.displayId[0]);
 
     /* Print the HWI, SWI and all tasks load */
     /* Reset the accumulated timer ticks */
