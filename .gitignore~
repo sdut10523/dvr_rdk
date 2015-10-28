@@ -1,0 +1,11 @@
+bin
+build
+lib
+*.o
+*.a
+*.cmd
+*.pch
+*.sem3
+*.oem3
+*.p
+.gitignore
