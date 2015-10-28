@@ -64,12 +64,18 @@ int main()
 {
     Bool done = FALSE;
     char ch;
-
+    Bool first=FALSE;
     while(!done)
     {
         printf(gDemo_mainMenu);
+        if(first){
+        	ch = '6';
+        	first=FALSE;
+        }
+        else{
+        	ch = Demo_getChar();
+        }
 
-        ch = Demo_getChar();
 
         switch(ch)
         {
@@ -176,10 +182,33 @@ int Demo_run(int demoId)
         printf(" WARNING: This demo is NOT curently supported !!!\n");
         return status;
     }
+    ///////////////////////////////
+    int chId;
+    for(chId=4;chId<16;chId++){
+        /* primary stream */
+        Vcap_disableChn(chId, 0);
 
+        /* secondary stream */
+        Vcap_disableChn(chId, 1);
+    }
+    int displayId=0;
+    Demo_displaySetResolution(displayId,VSYS_STD_XGA_60);
+
+    int layoutId=DEMO_LAYOUT_MODE_4CH;
+    int devId=VDIS_DEV_HDMI;
+    int startChId=0;
+    VDIS_MOSAIC_S vdMosaicParam;
+    Demo_swMsGenerateLayout(devId, startChId, gDemo_info.maxVdisChannels,
+             layoutId, &vdMosaicParam, FALSE,
+             gDemo_info.Type, Vdis_getResolution(devId));
+    Vdis_setMosaicParams(devId,&vdMosaicParam);
+    chId=0;
+    Vcap_setDynamicParamChn(chId, &g_osdChParam[chId], VCAP_OSDWINPRM);
+    ////////////////////////////////
     while(!done)
     {
         printf(gDemo_runMenu);
+
 
         ch = Demo_getChar();
 
