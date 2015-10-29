@@ -338,6 +338,8 @@ Int32 Vdec_requestBitstreamBuffer(VDEC_BUF_REQUEST_S * bufReq, VCODEC_BITSBUF_LI
 
     \return SUCCESS or FAIL
 */
+
+////////////TODO
 Int32 Vdec_putBitstreamBuffer(VCODEC_BITSBUF_LIST_S *pBitsBufList)
 {
     Bitstream_BufList ipcBufList;

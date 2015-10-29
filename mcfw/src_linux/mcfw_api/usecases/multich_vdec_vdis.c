@@ -8,7 +8,7 @@
                           |
                         IPC_BITS_OUT_A8 (BitStream)
                           |
-                        IPC_BITS_IN (Video)
+                        IPC_BITS_IN (M3Video)
                           |
                         DEC (YUV420SP)
                           |

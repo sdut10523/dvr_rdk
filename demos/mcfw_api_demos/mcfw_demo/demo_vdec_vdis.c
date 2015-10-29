@@ -41,7 +41,7 @@
 #include <demo_vdec_vdis.h>
 
 //#define VDEC_VDIS_ENABLE_IPCFRAMESOUT                 (TRUE)
-
+/////////////////////////TODO
 Void VdecVdis_start()
 {
     VSYS_PARAMS_S vsysParams;
@@ -52,7 +52,7 @@ Void VdecVdis_start()
     UInt32 i,status;
     Bool forceLowCostScale = FALSE;
     UInt32 startChID;
-
+    /////////////////////////TODO
     VdecVdis_bitsRdInit();
 
     #ifdef VDEC_VDIS_ENABLE_IPCFRAMESOUT

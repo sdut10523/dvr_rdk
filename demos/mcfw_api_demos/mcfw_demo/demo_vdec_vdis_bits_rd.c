@@ -27,7 +27,7 @@ Void VdecVdis_setTplayConfig(VDIS_CHN vdispChnId, VDIS_AVSYNC speed)
         gVdecVdis_config.gDemo_TrickPlayMode.speed = 1;
     }
 }
-
+////////////////////TODO
 static Void VdecVdis_bitsRdGetEmptyBitBufs(VCODEC_BITSBUF_LIST_S *emptyBufList, UInt32 resId)
 {
     VDEC_BUF_REQUEST_S reqInfo;
@@ -143,6 +143,7 @@ static Void VdecVdis_bitsRdReadData(VCODEC_BITSBUF_LIST_S  *emptyBufList,UInt32 
     }
 }
 
+//////////////////////////TODO
 static Void VdecVdis_bitsRdSendFullBitBufs( VCODEC_BITSBUF_LIST_S *fullBufList)
 {
     if (fullBufList->numBufs)
@@ -151,6 +152,7 @@ static Void VdecVdis_bitsRdSendFullBitBufs( VCODEC_BITSBUF_LIST_S *fullBufList)
     }
 }
 
+//TODO
 static Void *VdecVdis_bitsRdSendFxn(Void * prm)
 {
     VCODEC_BITSBUF_LIST_S emptyBufList;
@@ -165,6 +167,7 @@ static Void *VdecVdis_bitsRdSendFxn(Void * prm)
 
         for (resId = 0; resId < gVdecVdis_config.numRes; resId++)
         {
+        	/////////////////////////TODO
             VdecVdis_bitsRdGetEmptyBitBufs(&emptyBufList,resId);
 
             VdecVdis_bitsRdReadData(&emptyBufList,resId);
@@ -372,7 +375,7 @@ static Bool VdecVdis_bitsRdFileExists( const char* filename )
     return FALSE;
 }
 
-
+///////open file
 static Int   VdecVdis_bitsRdOpenFileHandles(Bool headGenerate)
 {
     UInt32 status = OSA_SOK;
@@ -582,6 +585,7 @@ static Int32 VdecVdis_bitsRdResetFileHandles()
     return OSA_SOK;
 }
 
+///////TODO
 static Void VdecVdis_bitsRdInitThrObj()
 {
     int status;
@@ -589,7 +593,7 @@ static Void VdecVdis_bitsRdInitThrObj()
     gVdecVdis_obj.thrExit = FALSE;
     status = OSA_semCreate(&gVdecVdis_obj.thrStartSem,1,0);
     OSA_assert(status==OSA_SOK);
-
+    /////////////////////////TODO
     status = OSA_thrCreate(&gVdecVdis_obj.thrHandle,
             VdecVdis_bitsRdSendFxn,
             MCFW_IPCBITS_SENDFXN_TSK_PRI,
@@ -606,6 +610,7 @@ static Void VdecVdis_bitsRdDeInitThrObj()
     OSA_semDelete(&gVdecVdis_obj.thrStartSem);
 }
 
+/////////////////////////TODO
 Int32 VdecVdis_bitsRdInit()
 {
     memset(&gVdecVdis_obj   , 0, sizeof(gVdecVdis_obj));
@@ -615,7 +620,7 @@ Int32 VdecVdis_bitsRdInit()
     VdecVdis_bitsRdResetFileHandles();
 
     VdecVdis_bitsRdGetFileInfoFromIniFile();
-
+    /////////////////////////TODO
     VdecVdis_bitsRdInitThrObj();
 
     return OSA_SOK;

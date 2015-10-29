@@ -418,7 +418,9 @@ int Demo_startStop(int demoId, Bool startDemo)
             break;
         case DEMO_CUSTOM_2:
             if(startDemo)
-                VcapVencVdecVdisCustom_start(TRUE, FALSE, 2);
+//////////////////////////////
+                VcapVencVdecVdisCustom_start(TRUE, FALSE, 2);  /////2
+/////////////////////////
             else
                 VcapVencVdecVdisCustom_stop();
 
