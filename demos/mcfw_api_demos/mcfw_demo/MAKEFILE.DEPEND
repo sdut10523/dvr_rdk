@@ -376,7 +376,39 @@ demo_custom_vcap_venc_vdec_vdis.o: demo_custom_vcap_venc_vdec_vdis.c \
   iniparser.h dictionary.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa_que.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa_mutex.h \
-  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/uvc.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/file.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/videodev2.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/stddef.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/int-ll64.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctl-types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ttydefaults.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/mman.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mman.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/avilib.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/inttypes.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/syslimits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix1_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/local_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix2_lim.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/v4l2uvc.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/../myUVC/avilib.h
 demo_decode.o: demo_decode.c demo.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa.h \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/pthread.h \
@@ -1642,7 +1674,39 @@ demo_vdec_vdis_bits_rd.o: demo_vdec_vdis_bits_rd.c demo_vdec_vdis.h \
   iniparser.h dictionary.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa_que.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa_mutex.h \
-  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/uvc.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/file.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/videodev2.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/stddef.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/int-ll64.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctl-types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ttydefaults.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/mman.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mman.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/avilib.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/inttypes.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/syslimits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix1_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/local_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix2_lim.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/v4l2uvc.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/../myUVC/avilib.h
 demo_vdec_vdis.o: demo_vdec_vdis.c demo_vdec_vdis.h demo.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa.h \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/pthread.h \
@@ -1740,7 +1804,39 @@ demo_vdec_vdis.o: demo_vdec_vdis.c demo_vdec_vdis.h demo.h \
   iniparser.h dictionary.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa_que.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/osa/inc/osa_mutex.h \
-  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/uvc.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/file.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/videodev2.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/stddef.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/int-ll64.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctl-types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ttydefaults.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/mman.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mman.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/avilib.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/inttypes.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/syslimits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix1_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/local_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix2_lim.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/v4l2uvc.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/../myUVC/avilib.h
 demo_vdec_vdis_frames_send.o: demo_vdec_vdis_frames_send.c \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdio.h \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/features.h \
@@ -1840,6 +1936,38 @@ demo_vdec_vdis_frames_send.o: demo_vdec_vdis_frames_send.c \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/libgen.h \
   iniparser.h dictionary.h \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/time.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/uvc.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/file.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/videodev2.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/stddef.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/posix_types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm-generic/int-ll64.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ioctl.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/asm/ioctls.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/ioctl-types.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/ttydefaults.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/sys/mman.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/mman.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/avilib.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/inttypes.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdint.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/wchar.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/syslimits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix1_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/local_lim.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/linux/limits.h \
+  /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/bits/posix2_lim.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/v4l2uvc.h \
+  /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/src_linux/myUVC/../myUVC/avilib.h \
   /opt/DVRRDK_02.00.00.23/dvr_rdk/../dvr_rdk/mcfw/interfaces/ti_vcap.h
 dictionary.o: dictionary.c dictionary.h \
   /opt/DVRRDK_02.00.00.23/ti_tools/cgt_a8/arm-2009q1/bin/../arm-none-linux-gnueabi/libc/usr/include/stdio.h \

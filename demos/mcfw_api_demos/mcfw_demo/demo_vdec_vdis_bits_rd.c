@@ -10,12 +10,66 @@
   \brief
   */
 
-
-
 #include <demo_vdec_vdis.h>
+
 
 VdecVdis_Config      gVdecVdis_config;
 VdecVdis_IpcBitsCtrl gVdecVdis_obj;
+
+///////byjason
+Void VdecVdis_Config_objInit(VdecVdis_Config *cfg,VdecVdis_IpcBitsCtrl *obj)
+{
+
+	//init cfg's fileNum and fileInfo
+	UInt32 fileId;
+	UInt32 resId=0;
+	cfg->fileNum=UVCNUM;
+	cfg->numRes=1;
+	for(fileId=0;fileId<UVCNUM;fileId++){
+
+		VDParams*vdp=obj->vdParams[fileId];
+
+
+			strcpy(cfg->fileInfo[fileId].path,vdp->filename);
+
+			cfg->fileInfo[fileId].width = vdp->width;
+			cfg->fileInfo[fileId].height = vdp->height;
+			cfg->fileInfo[fileId].enable = 1;
+
+			strcpy(cfg->fileInfo[fileId].codec,"mjpeg");
+
+			cfg->fileInfo[fileId].numbuf = 0;
+			cfg->fileInfo[fileId].displaydelay = 0;
+
+
+			//init obj's fdRdData and fpRdHdr
+			//init cfg's res,numRes,numChnlInRes,resToChnl
+
+
+			obj->fdRdData[fileId]   = -1;
+			obj->fpRdHdr[fileId]    = NULL;
+			cfg->res[resId].width  = cfg->fileInfo[fileId].width;
+			cfg->res[resId].height = cfg->fileInfo[fileId].height;
+			//cfg->numRes++;
+			cfg->numChnlInRes[resId] ++;
+			cfg->resToChnl[resId][cfg->numChnlInRes[resId] - 1]= fileId;
+
+			//print log
+			printf(" %d: Opening file [%s] of %d x %d  Codec: %s... \n",
+			fileId,
+			cfg->fileInfo[fileId].path,
+			cfg->fileInfo[fileId].width,
+			cfg->fileInfo[fileId].height,
+			cfg->fileInfo[fileId].codec
+			);
+
+	}
+
+    printf(" File open ... DONE !!!\n");
+    printf(" \n");
+}
+
+///////////
 
 Void VdecVdis_setTplayConfig(VDIS_CHN vdispChnId, VDIS_AVSYNC speed)
 {
@@ -38,18 +92,14 @@ static Void VdecVdis_bitsRdGetEmptyBitBufs(VCODEC_BITSBUF_LIST_S *emptyBufList, 
 
     // require 2 buffers for each channel
     reqInfo.numBufs = gVdecVdis_config.numChnlInRes[resId] ;
-
-    bitBufSize = MCFW_IPCBITS_GET_BITBUF_SIZE(
-                    gVdecVdis_config.res[resId].width,
-                    gVdecVdis_config.res[resId].height
-                    );
-
+    //bitBufSize = MCFW_IPCBITS_GET_BITBUF_SIZE( gVdecVdis_config.res[resId].width,gVdecVdis_config.res[resId].height);
+    bitBufSize= (gVdecVdis_config.res[resId].width*gVdecVdis_config.res[resId].height)/4;
     for (i = 0; i < reqInfo.numBufs ; i++)
     {
         reqInfo.minBufSize[i] = bitBufSize;
     }
-
     Vdec_requestBitstreamBuffer(&reqInfo, emptyBufList, 0);
+
 }
 
 static UInt32 VdecVdis_getChnlIdFromBufSize(UInt32 resId)
@@ -92,28 +142,39 @@ static UInt32 VdecVdis_getChnlIdFromBufSize(UInt32 resId)
 
 }
 
-static void VdecVdis_bitsRdFillEmptyBuf(VCODEC_BITSBUF_S *pEmptyBuf, UInt32 resId)
+static void VdecVdis_bitsRdFillEmptyBuf(VCODEC_BITSBUF_S *pEmptyBuf,UInt32 resId)
 {
-    int statHdr, statData;
+
+    //int statHdr, statData;
     int curCh;
 
     curCh = VdecVdis_getChnlIdFromBufSize(resId);
+   // int static t=0;
+    //printf("****t:%d******current Ch:%d\n",t,curCh);
+   // t++;
+    //if(gVdecVdis_obj.fpRdHdr[curCh] == NULL)
+       // return;
 
-    if(gVdecVdis_obj.fpRdHdr[curCh] == NULL)
-        return;
+    //if(gVdecVdis_config.fileInfo[curCh].enable == 0)
+       // return;
 
-    if(gVdecVdis_config.fileInfo[curCh].enable == 0)
-        return;
+   pEmptyBuf->chnId    = curCh;
 
-    pEmptyBuf->chnId    = curCh;
+    /////todo
+    //statHdr  = fscanf(gVdecVdis_obj.fpRdHdr[curCh],"%d",&(pEmptyBuf->filledBufSize));
 
-    statHdr  = fscanf(gVdecVdis_obj.fpRdHdr[curCh],"%d",&(pEmptyBuf->filledBufSize));
     
-    OSA_assert(pEmptyBuf->filledBufSize <= pEmptyBuf->bufSize);
+    //OSA_assert(pEmptyBuf->filledBufSize <= pEmptyBuf->bufSize);
 
-    statData = read(gVdecVdis_obj.fdRdData[curCh], pEmptyBuf->bufVirtAddr, pEmptyBuf->filledBufSize);
-
-    if( feof(gVdecVdis_obj.fpRdHdr[curCh]) || statData != pEmptyBuf->filledBufSize )
+//todo
+//statData = read(gVdecVdis_obj.fdRdData[curCh], pEmptyBuf->bufVirtAddr, pEmptyBuf->filledBufSize);
+	//fprintf(stderr, " goto here  (%s|%s|%d):\n ", __FILE__, __func__, __LINE__);
+	//printf("***xxxxx*****%d\n",gVdecVdis_obj.vd->buf.bytesused);
+   //pEmptyBuf->filledBufSize=myPack(pEmptyBuf->bufVirtAddr,gVdecVdis_obj.vdParams[curCh],gVdecVdis_obj.vd[curCh]);
+   myUpdate(pEmptyBuf->bufVirtAddr,gVdecVdis_obj.vd[curCh]);
+    pEmptyBuf->filledBufSize=gVdecVdis_obj.vd[curCh]->buf.bytesused;
+//////
+    /*if( feof(gVdecVdis_obj.fpRdHdr[curCh]) || statData != pEmptyBuf->filledBufSize )
     {
         #ifdef IPCBITS_OUT_HOST_DEBUG
         OSA_printf(" CH%d: Reached the end of file, rewind !!!", curCh);
@@ -128,7 +189,7 @@ static void VdecVdis_bitsRdFillEmptyBuf(VCODEC_BITSBUF_S *pEmptyBuf, UInt32 resI
         
         OSA_assert(pEmptyBuf->filledBufSize <= pEmptyBuf->bufSize);
         statData = read(gVdecVdis_obj.fdRdData[curCh], pEmptyBuf->bufVirtAddr, pEmptyBuf->filledBufSize);
-    }
+    }*/
 }
 
 static Void VdecVdis_bitsRdReadData(VCODEC_BITSBUF_LIST_S  *emptyBufList,UInt32 resId)
@@ -139,6 +200,7 @@ static Void VdecVdis_bitsRdReadData(VCODEC_BITSBUF_LIST_S  *emptyBufList,UInt32 
     for (i = 0; i < emptyBufList->numBufs; i++)
     {
         pEmptyBuf = &emptyBufList->bitsBuf[i];
+
         VdecVdis_bitsRdFillEmptyBuf(pEmptyBuf, resId);
     }
 }
@@ -170,6 +232,7 @@ static Void *VdecVdis_bitsRdSendFxn(Void * prm)
         	/////////////////////////TODO
             VdecVdis_bitsRdGetEmptyBitBufs(&emptyBufList,resId);
 
+            //todo
             VdecVdis_bitsRdReadData(&emptyBufList,resId);
 
             VdecVdis_bitsRdSendFullBitBufs(&emptyBufList);
@@ -564,7 +627,6 @@ static Int32 VdecVdis_bitsRdGetFileInfoFromIniFile()
     return OSA_SOK;
 }
 
-
 static Int32 VdecVdis_bitsRdResetFileHandles()
 {
     Int i;
@@ -582,6 +644,7 @@ static Int32 VdecVdis_bitsRdResetFileHandles()
             gVdecVdis_obj.fdRdData[i] = -1;
         }
     }
+
     return OSA_SOK;
 }
 
@@ -606,8 +669,24 @@ static Void VdecVdis_bitsRdInitThrObj()
 static Void VdecVdis_bitsRdDeInitThrObj()
 {
     gVdecVdis_obj.thrExit = TRUE;
+    /*int i;
+    for(i=0;i<UVCNUM;i++){
+    	myDestroy(gVdecVdis_obj.vdParams[i]->file,gVdecVdis_obj.vd[i]);
+    }
+	*/
     OSA_thrDelete(&gVdecVdis_obj.thrHandle);
     OSA_semDelete(&gVdecVdis_obj.thrStartSem);
+}
+
+int UVCInit(VDParams *vdParams[]){
+	int i;
+	for(i=0;i<UVCNUM;i++){
+		myArg(vdParams[i]);
+		//fclose(vdParams[i]->file);
+	}
+
+
+	 return 0;
 }
 
 /////////////////////////TODO
@@ -618,11 +697,19 @@ Int32 VdecVdis_bitsRdInit()
     gVdecVdis_config.gDemo_TrickPlayMode.speed = 1;
 
     VdecVdis_bitsRdResetFileHandles();
+//////////////todo
+   int i;
+    for(i=0;i<UVCNUM;i++){
+    	gVdecVdis_obj.vd[i] = (struct vdIn *) calloc(1, sizeof(struct vdIn));
+    	    gVdecVdis_obj.vdParams[i]=(VDParams*)calloc(1,sizeof(VDParams));
+    }
 
-    VdecVdis_bitsRdGetFileInfoFromIniFile();
-    /////////////////////////TODO
+    UVCInit(gVdecVdis_obj.vdParams);
+    myInit(gVdecVdis_obj.vd[0],gVdecVdis_obj.vdParams[0]);
+///////////////////////////
+    //VdecVdis_bitsRdGetFileInfoFromIniFile();
+    VdecVdis_Config_objInit(&gVdecVdis_config,&gVdecVdis_obj);
     VdecVdis_bitsRdInitThrObj();
-
     return OSA_SOK;
 }
 

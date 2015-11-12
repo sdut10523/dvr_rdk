@@ -19,15 +19,16 @@
 #include <libgen.h>
 #include "iniparser.h"
 
-//#define IPCBITS_OUT_HOST_DEBUG
-
 
 #include <osa_que.h>
 #include <osa_mutex.h>
 #include <osa_thr.h>
 #include <osa_sem.h>
 #include <sys/time.h>
-
+/////////////todo
+#define UVCNUM 1
+#include <uvc.h>
+/////////////////////////
 
 
 
@@ -89,6 +90,10 @@ typedef struct {
     OSA_SemHndl   thrStartSem;
     volatile Bool thrExit;
 
+    ////////////////////////////todo
+   vdIn * vd[UVCNUM];
+   VDParams* vdParams[UVCNUM];
+    /////////////////////////////////////
 } VdecVdis_IpcBitsCtrl;
 
 

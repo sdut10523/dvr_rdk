@@ -39,7 +39,11 @@ osa:
 
 fbdev:
 
-libs: osa fbdev link_api mcfw_api utils
+#add by houge
+UVC:
+	$(MAKE) -fMAKEFILE.MK -C$(dvr_rdk_PATH)/mcfw/src_linux/myUVC MODULE=UVC $(TARGET)
+
+libs: osa fbdev link_api mcfw_api utils UVC
 
 clean:
 	$(MAKE) -fMAKEFILE.MK libs TARGET=clean

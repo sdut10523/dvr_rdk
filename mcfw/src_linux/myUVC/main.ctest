@@ -1,0 +1,6 @@
+#include "myInit.h"
+int main(int argc, char *argv[]){
+
+	myInit(argc, argv);
+	return 0;
+}
